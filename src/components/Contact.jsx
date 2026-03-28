@@ -21,8 +21,8 @@ const contactInfo = [
   {
     icon: Phone,
     label: "Call Us",
-    value: "+91 98765 43210",
-    href: "tel:+919876543210",
+    value: "+91 98XXXXXXXX",
+    href: "tel:+91XXXXXXXXXX",
   },
   {
     icon: Mail,
@@ -170,7 +170,7 @@ export default function Contact() {
                   <Field label="Full Name" error={errors.name}>
                     <input
                       type="text"
-                      placeholder="Ananya Sharma"
+                      placeholder="Your Name"
                       value={form.name}
                       onChange={(e) => handleChange("name", e.target.value)}
                       className={inputCls(errors.name)}
@@ -179,7 +179,7 @@ export default function Contact() {
                   <Field label="Mobile Number" error={errors.phone}>
                     <input
                       type="tel"
-                      placeholder="98XXXXXXXX"
+                      placeholder="Your Mobile Number"
                       value={form.phone}
                       maxLength={10}
                       onChange={(e) => handleChange("phone", e.target.value.replace(/\D/, ""))}

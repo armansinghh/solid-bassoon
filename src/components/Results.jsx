@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Quote, Trophy, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef, useEffect } from "react";
+import { Quote, Trophy } from "lucide-react";
 import ScrollReveal from "./ui/ScrollReveal";
 
 const toppers = [
@@ -11,25 +11,44 @@ const toppers = [
   { name: "Karan Mehta", rank: "AIR 67", year: "2021", service: "IPS", cadre: "Gujarat Cadre", initials: "KM", bg: "from-cyan-400/25 to-cyan-400/5", quote: "The optional subject coaching for PSIR is exceptional. My score jumped 40 marks from my previous attempt." },
 ];
 
-const VISIBLE = 3; // cards shown at once on desktop
-
 const recentSelections = [
   { year: "2023", ias: 28, ips: 19, ifs: 11, others: 74 },
-  { year: "2022", ias: 24, ips: 16, ifs: 9, others: 68 },
-  { year: "2021", ias: 21, ips: 14, ifs: 8, others: 55 },
-  { year: "2021", ias: 21, ips: 14, ifs: 8, others: 55 },
-  { year: "2021", ias: 21, ips: 14, ifs: 8, others: 55 },
-  { year: "2021", ias: 21, ips: 14, ifs: 8, others: 55 },
+  { year: "2022", ias: 25, ips: 17, ifs: 10, others: 69 },
+  { year: "2021", ias: 23, ips: 16, ifs: 9, others: 63 },
+  { year: "2020", ias: 20, ips: 14, ifs: 8, others: 58 },
+  { year: "2019", ias: 18, ips: 13, ifs: 7, others: 52 },
+  { year: "2018", ias: 16, ips: 11, ifs: 6, others: 47 },
 ];
 
+// Triple-duplicate for seamless infinite loop
+const marqueeItems = [...toppers, ...toppers, ...toppers];
+
 export default function Results() {
-  const [idx, setIdx] = useState(0);
-  const maxIdx = toppers.length - VISIBLE;
+  const trackRef = useRef(null);
+  const rafRef = useRef(null);
+  const posRef = useRef(0);
+  const pausedRef = useRef(false);
+  const SPEED = 0.2;
 
-  const prev = () => setIdx((i) => Math.max(i - 1, 0));
-  const next = () => setIdx((i) => Math.min(i + 1, maxIdx));
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
 
-  const visible = toppers.slice(idx, idx + VISIBLE);
+    const tick = () => {
+      if (!pausedRef.current) {
+        posRef.current += SPEED;
+        const oneSetWidth = track.scrollWidth / 3;
+        if (posRef.current >= oneSetWidth) {
+          posRef.current -= oneSetWidth;
+        }
+        track.style.transform = `translateX(-${posRef.current}px)`;
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
 
   return (
     <section id="results" className="py-24 bg-white">
@@ -37,66 +56,39 @@ export default function Results() {
 
         {/* Header */}
         <ScrollReveal>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
-            <div>
-              <p className="text-gold font-semibold text-xs tracking-widest uppercase mb-3">Our Results</p>
-              <h2 className="font-display font-bold text-navy text-3xl sm:text-4xl">
-                <span className="title-underline">Their Success.</span>{" "}
-                <span className="italic text-gold">Our Purpose.</span>
-              </h2>
-            </div>
-            {/* Carousel controls */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={prev}
-                disabled={idx === 0}
-                className="w-9 h-9 rounded-full border border-cream-dark flex items-center justify-center hover:border-gold hover:text-gold disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <span className="text-muted text-xs tabular-nums">{idx + 1} / {maxIdx + 1}</span>
-              <button
-                onClick={next}
-                disabled={idx === maxIdx}
-                className="w-9 h-9 rounded-full border border-cream-dark flex items-center justify-center hover:border-gold hover:text-gold disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
+          <div className="mb-14">
+            <p className="text-gold font-semibold text-xs tracking-widest uppercase mb-3">Our Results</p>
+            <h2 className="font-display font-bold text-navy text-3xl sm:text-4xl">
+              <span className="title-underline">Their Success.</span>{" "}
+              <span className="italic text-gold">Our Purpose.</span>
+            </h2>
           </div>
         </ScrollReveal>
 
-        {/* Testimonial carousel — desktop 3-up, mobile single */}
-        <div className="overflow-hidden mb-5">
+        {/* Infinite marquee */}
+        <div className="mb-14 relative">
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 z-10 bg-linear-to-r from-white to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 z-10 bg-linear-to-l from-white to-transparent" />
+
           <div
-            className="hidden sm:grid sm:grid-cols-3 gap-5 transition-all duration-500"
+            className="overflow-hidden"
+            onMouseEnter={() => { pausedRef.current = true; }}
+            onMouseLeave={() => { pausedRef.current = false; }}
+            onTouchStart={() => { pausedRef.current = true; }}
+            onTouchEnd={() => { pausedRef.current = false; }}
           >
-            {visible.map((t) => <TopperCard key={t.name} t={t} />)}
-          </div>
-          {/* Mobile: single */}
-          <div className="sm:hidden">
-            <TopperCard t={toppers[idx]} />
-            <div className="flex justify-center gap-2 mt-4">
-              {toppers.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setIdx(i)}
-                  className={`w-2 h-2 rounded-full transition-all ${i === idx ? "bg-gold w-5" : "bg-cream-dark"}`}
-                />
+            <div
+              ref={trackRef}
+              className="flex gap-5 w-max py-2"
+              style={{ willChange: "transform" }}
+            >
+              {marqueeItems.map((t, i) => (
+                <div key={i} className="w-72 sm:w-80 shrink-0">
+                  <TopperCard t={t} />
+                </div>
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Dot indicators desktop */}
-        <div className="hidden sm:flex justify-center gap-2 mb-14">
-          {Array.from({ length: maxIdx + 1 }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setIdx(i)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${i === idx ? "bg-gold w-8" : "bg-cream-dark w-3"}`}
-            />
-          ))}
         </div>
 
         {/* Selection stats table */}
@@ -122,7 +114,7 @@ export default function Results() {
                   {recentSelections.map((row, i) => {
                     const total = row.ias + row.ips + row.ifs + row.others;
                     return (
-                      <tr key={row.year} className={`border-b border-white/5 hover:bg-white/3 transition-colors ${i === 0 ? "bg-gold/5" : ""}`}>
+                      <tr key={row.year + i} className={`border-b border-white/5 hover:bg-white/3 transition-colors ${i === 0 ? "bg-gold/5" : ""}`}>
                         <td className="px-6 py-4 text-white font-semibold text-sm">{row.year}</td>
                         <td className="px-6 py-4 text-gold font-bold text-sm">{row.ias}</td>
                         <td className="px-6 py-4 text-white/70 text-sm">{row.ips}</td>
@@ -146,7 +138,7 @@ export default function Results() {
 
 function TopperCard({ t }) {
   return (
-    <div className="bg-cream rounded-2xl p-5 border border-cream-dark card-lift flex flex-col">
+    <div className="bg-cream rounded-2xl p-5 border border-cream-dark transition-transform duration-300 hover:-translate-y-1.75 flex flex-col h-full cursor-default select-none">
       <Quote className="w-6 h-6 text-gold/40 mb-3" />
       <p className="text-navy/80 text-sm leading-relaxed mb-5 flex-1 italic">"{t.quote}"</p>
       <div className="flex items-center gap-3 pt-4 border-t border-cream-dark">

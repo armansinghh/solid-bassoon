@@ -10,7 +10,6 @@ const navLinks = [
   { label: "Contact",   href: "#contact" },
 ];
 
-/** Returns the id of the section currently in view */
 function useActiveSection() {
   const [active, setActive] = useState("");
 
@@ -23,7 +22,7 @@ function useActiveSection() {
           if (entry.isIntersecting) setActive(entry.target.id);
         });
       },
-      { rootMargin: "-40% 0px -55% 0px" } // middle band of viewport
+      { rootMargin: "-40% 0px -55% 0px" }
     );
 
     ids.forEach((id) => {
@@ -58,11 +57,10 @@ export default function Navbar() {
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-400 ${
         scrolled ? "bg-navy/80 backdrop-blur-md shadow-lg shadow-navy/20" : "bg-transparent"
       }`}
-      // leave 3px for the ScrollProgress bar above
       style={{ marginTop: "3px" }}
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-18">
+        <div className="flex items-center justify-between h-16 sm:h-20">
 
           {/* Logo */}
           <a href="#" className="flex items-center gap-2.5 group">
@@ -92,13 +90,11 @@ export default function Navbar() {
                   }`}
                 >
                   {link.label}
-                  {/* Active indicator dot */}
                   <span
                     className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-gold transition-all duration-300 ${
                       isActive ? "opacity-100 scale-100" : "opacity-0 scale-0"
                     }`}
                   />
-                  {/* Hover underline */}
                   <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-white/40 transition-all duration-300 group-hover:w-full" />
                 </button>
               );
@@ -112,7 +108,7 @@ export default function Navbar() {
               className="hidden sm:flex items-center gap-1.5 text-gold/80 hover:text-gold text-xs font-medium transition-colors"
             >
               <Phone className="w-3.5 h-3.5" />
-              <span>+91 98765 43210</span>
+              <span>+91 98XXXXXXXX</span>
             </a>
             <button
               onClick={() => handleNav("#contact")}
@@ -133,8 +129,8 @@ export default function Navbar() {
 
       {/* Mobile drawer */}
       <div
-        className={`lg:hidden bg-navy/98 backdrop-blur-md border-t border-white/8 overflow-hidden transition-all duration-300 ${
-          mobileOpen ? "max-h-105 opacity-100" : "max-h-0 opacity-0"
+        className={`lg:hidden bg-navy/95 backdrop-blur-md border-t border-white/10 overflow-hidden transition-all duration-300 ${
+          mobileOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <nav className="px-5 py-4 flex flex-col gap-1">

@@ -47,8 +47,8 @@ function StatCard({ icon: Icon, value, suffix, label, delay }) {
 function CountTile({ value, label }) {
   return (
     <div className="flex flex-col items-center">
-      <div className="bg-white/10 border border-white/15 rounded-lg px-3 py-2 min-w-13 text-center">
-        <span className="font-display font-bold text-gold text-xl tabular-nums">{String(value).padStart(2,"0")}</span>
+      <div className="bg-white/10 border border-white/15 rounded-lg px-2.5 py-2 min-w-[2.5rem] text-center">
+        <span className="font-display font-bold text-gold text-lg tabular-nums">{String(value).padStart(2,"0")}</span>
       </div>
       <span className="text-white/35 text-[9px] uppercase tracking-widest mt-1">{label}</span>
     </div>
@@ -77,10 +77,10 @@ function BatchCountdown() {
   }, []);
 
   return (
-    <div className="animate-fade-up delay-600 inline-flex items-center gap-3 bg-white/6 border border-white/12 rounded-2xl px-5 py-3 backdrop-blur-sm">
+    <div className="animate-fade-up delay-600 inline-flex items-center gap-2 bg-white/6 border border-white/12 rounded-2xl px-3 sm:px-5 py-3 backdrop-blur-sm w-full sm:w-auto">
       <CalendarDays className="w-4 h-4 text-gold shrink-0" />
-      <span className="text-white/60 text-xs font-medium">Next batch in</span>
-      <div className="flex items-center gap-2">
+      <span className="text-white/60 text-xs font-medium shrink-0">Next batch in</span>
+      <div className="flex items-center gap-1.5 sm:gap-2 ml-auto sm:ml-0">
         <CountTile value={time.d} label="Days" />
         <span className="text-white/30 font-bold text-sm -mt-3">:</span>
         <CountTile value={time.h} label="Hrs" />
@@ -95,7 +95,7 @@ function BatchCountdown() {
 
 export default function Hero() {
   return (
-    <section id="hero" className="grain relative min-h-screen flex flex-col justify-center bg-navy overflow-hidden">
+    <section id="hero" className="grain relative min-h-screen h-auto flex flex-col justify-center bg-navy overflow-hidden">
       {/* Animated blobs */}
       <div className="blob-pulse absolute top-1/4 -left-40 w-125 h-125 rounded-full bg-gold/7 blur-3xl pointer-events-none" />
       <div className="blob-pulse absolute bottom-1/4 -right-40 w-125 h-125 rounded-full bg-gold/5 blur-3xl pointer-events-none" style={{ animationDelay: "-7s" }} />
@@ -103,12 +103,12 @@ export default function Hero() {
       <div className="absolute inset-0 opacity-[0.035] pointer-events-none"
         style={{ backgroundImage:"radial-gradient(circle,#C9A84C 1px,transparent 1px)", backgroundSize:"40px 40px" }} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-24 pb-12 sm:pt-28 sm:pb-20">
         <div className="max-w-3xl">
           {/* Badge */}
-          <div className="animate-fade-up delay-100 inline-flex items-center gap-2 bg-gold/10 border border-gold/25 text-gold text-xs font-semibold px-3.5 py-1.5 rounded-full mb-7 tracking-wider uppercase">
-            <Star className="w-3 h-3 fill-gold" />
-            India's Most Trusted UPSC Coaching · Est. 2003
+          <div className="animate-fade-up delay-100 inline-flex items-center gap-2 bg-gold/10 border border-gold/25 text-gold font-semibold px-3.5 py-1.5 rounded-full mb-7 tracking-wider uppercase max-w-full overflow-hidden">
+            <Star className="w-3 h-3 fill-gold shrink-0" />
+            <span className="text-[10px] sm:text-xs truncate">India's Most Trusted UPSC Coaching · Est. 2003</span>
           </div>
 
           {/* Headline */}
@@ -147,7 +147,7 @@ export default function Hero() {
 
           {/* Social proof */}
           <div className="animate-fade-up delay-600 flex items-center gap-2.5 mt-8 mb-16">
-            <div className="flex -space-x-2.5">
+            <div className="flex -space-x-2.5 shrink-0">
               {[["SR","from-gold to-gold-light"],["AM","from-blue-400 to-blue-300"],["PK","from-emerald-400 to-emerald-300"],["RD","from-purple-400 to-purple-300"],["NV","from-rose-400 to-rose-300"]].map(([init, grad]) => (
                 <div key={init} className={`w-8 h-8 rounded-full bg-linear-to-br ${grad} border-2 border-navy flex items-center justify-center text-navy text-[10px] font-bold shadow`}>{init}</div>
               ))}
@@ -164,9 +164,6 @@ export default function Hero() {
           <StatCard icon={Star}       value={98}    suffix="%"    label="Student Satisfaction" delay="delay-400" />
         </div>
       </div>
-
-      {/* Bottom fade */}
-      {/* <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-cream to-transparent z-10" /> */}
     </section>
   );
 }
