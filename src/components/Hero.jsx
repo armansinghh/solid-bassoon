@@ -203,11 +203,18 @@ export default function Hero() {
 
           {/* Buttons */}
           <div className="flex gap-3 mb-8">
-            <button className="bg-gold text-navy px-6 py-3 rounded-xl font-semibold flex items-center gap-2">
+            <button
+              onClick={() => document.getElementById("courses")?.scrollIntoView({ behavior: "smooth" })}
+              className="bg-gold text-navy px-6 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-95"
+            >
               Explore Courses
               <ArrowRight className="w-4 h-4" />
             </button>
-            <button className="border border-white/20 text-white px-6 py-3 rounded-xl">
+
+            <button
+              onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+              className="border border-white/20 text-white px-6 py-3 rounded-xl transition-all duration-300 hover:bg-white/10 hover:border-white/40 hover:scale-105 active:scale-95"
+            >
               About Ravindra IAS
             </button>
           </div>
