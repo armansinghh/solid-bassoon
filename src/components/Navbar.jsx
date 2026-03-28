@@ -54,7 +54,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-[3px] inset-x-0 z-50 transition-all duration-400 ${
+      className={`fixed top-0.75 inset-x-0 z-50 transition-all duration-400 ${
         scrolled ? "bg-navy/80 backdrop-blur-md shadow-lg shadow-navy/20" : "bg-transparent"
       }`}
     >
@@ -129,7 +129,7 @@ export default function Navbar() {
       {/* Mobile drawer */}
       <div
         className={`lg:hidden bg-navy/95 backdrop-blur-md border-t border-white/10 overflow-hidden transition-all duration-300 ${
-          mobileOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-0"
+          mobileOpen ? "max-h-105 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <nav className="px-5 py-4 flex flex-col gap-1">

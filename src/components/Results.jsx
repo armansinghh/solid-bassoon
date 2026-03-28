@@ -28,7 +28,7 @@ export default function Results() {
   const rafRef = useRef(null);
   const posRef = useRef(0);
   const pausedRef = useRef(false);
-  const SPEED = 0.2;
+  const SPEED = 0.3;
 
   useEffect(() => {
     const track = trackRef.current;

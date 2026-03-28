@@ -50,6 +50,7 @@ html { scroll-behavior: smooth; }
 }
 .title-underline-center::after { left: 50%; transform: translateX(-50%); }
 
+
 @keyframes shimmer {
   0%   { background-position: 200% center; }
   100% { background-position: -200% center; }
@@ -105,3 +106,53 @@ html { scroll-behavior: smooth; }
   to   { transform: rotateX(0deg);   opacity: 1; }
 }
 .flip-in { animation: flipIn 0.35s ease forwards; }
+
+/* Infinite horizontal scroll */
+@keyframes scroll-bg {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-bg {
+  animation: scroll-bg 60s linear infinite;
+}
+
+/* Optional: smoother rendering */
+.bg-layer {
+  will-change: transform;
+}
+
+@theme {
+  --animate-scroll-bg: scroll-bg 30s linear infinite;
+
+  --color-gold: #C9A84C;
+  --color-navy: #0D1B2A;
+}
+
+@keyframes scroll-bg {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blob-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%       { transform: scale(1.15); opacity: 1; }
+}
+
+.animate-fade-up  { animation: fade-up 0.6s ease both; }
+.blob-pulse       { animation: blob-pulse 14s ease-in-out infinite; }
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-600 { animation-delay: 0.6s; }
