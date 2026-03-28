@@ -15,7 +15,7 @@ import FloatingCTA    from "./components/ui/FloatingCTA";
 
 export default function App() {
   return (
-    <div className="font-body bg-cream text-navy">
+    <div className="font-body bg-cream text-navy overflow-x-hidden">
       {/* Global overlays — visible across all sections */}
       <ScrollProgress />
       <FloatingCTA />

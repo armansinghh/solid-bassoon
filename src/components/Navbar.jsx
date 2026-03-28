@@ -54,10 +54,9 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-400 ${
+      className={`fixed top-[3px] inset-x-0 z-50 transition-all duration-400 ${
         scrolled ? "bg-navy/80 backdrop-blur-md shadow-lg shadow-navy/20" : "bg-transparent"
       }`}
-      style={{ marginTop: "3px" }}
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
