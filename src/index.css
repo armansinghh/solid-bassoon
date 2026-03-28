@@ -1,8 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
 @import "tailwindcss";
 
+/* ─── Design Tokens ──────────────────────────────────────────── */
 @theme {
-  --color-brand: #6366f1;        /* pick your accent color */
-  --color-brand-dark: #4f46e5;
-  --radius-card: 0.75rem;
-  --font-sans: 'Inter', sans-serif;
+  --color-navy:        #0D1B2A;
+  --color-navy-light:  #162436;
+  --color-navy-muted:  #1E3045;
+  --color-gold:        #C9A84C;
+  --color-gold-light:  #E8C97A;
+  --color-gold-pale:   #F5E9C8;
+  --color-cream:       #FDF6EC;
+  --color-cream-dark:  #F5ECD8;
+  --color-muted:       #6B7C93;
+  --font-display:      'Playfair Display', Georgia, serif;
+  --font-body:         'DM Sans', system-ui, sans-serif;
 }
+
+/* ─── Base ───────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+::selection { background: #C9A84C30; color: #0D1B2A; }
+
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: #FDF6EC; }
+::-webkit-scrollbar-thumb { background: #C9A84C; border-radius: 4px; }
+
+/* ─── Grain overlay ──────────────────────────────────────────── */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.045'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.35;
+  z-index: 0;
+}
+
+/* ─── Gold underline with shimmer ────────────────────────────── */
+.title-underline { display: inline-block; position: relative; }
+.title-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -10px; left: 0;
+  width: 56px; height: 3px;
+  background: linear-gradient(90deg, #C9A84C, #E8C97A, #C9A84C);
+  background-size: 200%;
+  border-radius: 2px;
+  animation: shimmer 3s linear infinite;
+}
+.title-underline-center::after { left: 50%; transform: translateX(-50%); }
+
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* ─── Hero entrance ──────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fadeUp 0.75s cubic-bezier(0.22,1,0.36,1) forwards; }
+.delay-100 { animation-delay: 0.10s; opacity: 0; }
+.delay-200 { animation-delay: 0.20s; opacity: 0; }
+.delay-300 { animation-delay: 0.30s; opacity: 0; }
+.delay-400 { animation-delay: 0.40s; opacity: 0; }
+.delay-500 { animation-delay: 0.55s; opacity: 0; }
+.delay-600 { animation-delay: 0.70s; opacity: 0; }
+
+/* ─── Card lift ──────────────────────────────────────────────── */
+.card-lift {
+  transition: transform 0.28s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.28s cubic-bezier(0.22,1,0.36,1);
+}
+.card-lift:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 24px 48px rgba(13,27,42,0.13);
+}
+
+/* ─── Gold glow on hover ─────────────────────────────────────── */
+.gold-glow:hover {
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.22), 0 8px 24px rgba(201,168,76,0.22);
+}
+
+/* ─── Blob pulse ─────────────────────────────────────────────── */
+@keyframes blobPulse {
+  0%, 100% { transform: scale(1) translate(0,0); }
+  33%       { transform: scale(1.08) translate(12px,-8px); }
+  66%       { transform: scale(0.95) translate(-8px,12px); }
+}
+.blob-pulse { animation: blobPulse 14s ease-in-out infinite; }
+
+/* ─── Animate ping ───────────────────────────────────────────── */
+@keyframes ping { 75%,100% { transform: scale(2); opacity: 0; } }
+.animate-ping { animation: ping 1.4s cubic-bezier(0,0,0.2,1) infinite; }
+
+/* ─── Spin ───────────────────────────────────────────────────── */
+@keyframes spin { to { transform: rotate(360deg); } }
+.animate-spin { animation: spin 0.8s linear infinite; }
+
+/* ─── Countdown flip ─────────────────────────────────────────── */
+@keyframes flipIn {
+  from { transform: rotateX(-90deg); opacity: 0; }
+  to   { transform: rotateX(0deg);   opacity: 1; }
+}
+.flip-in { animation: flipIn 0.35s ease forwards; }
